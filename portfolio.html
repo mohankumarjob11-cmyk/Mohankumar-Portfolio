@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>T. Mohankumar — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0e1a26;
+        --panel: #132633;
+        --panel-2: #17303f;
+        --paper: #edf3f2;
+        --amber: #f2a93b;
+        --teal: #4fbdb0;
+        --text: #eaf1f0;
+        --muted: #8ca0ad;
+        --border: rgba(234, 241, 240, 0.1);
+        --border-strong: rgba(234, 241, 240, 0.22);
+        --radius: 3px;
+        --sidebar-w: 240px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "IBM Plex Sans", sans-serif;
+        line-height: 1.6;
+        background-image:
+          linear-gradient(rgba(79, 189, 176, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(79, 189, 176, 0.045) 1px, transparent 1px);
+        background-size: 42px 42px;
+      }
+      a {
+        color: inherit;
+      }
+      ::selection {
+        background: var(--amber);
+        color: #12202b;
+      }
+      :focus-visible {
+        outline: 2px solid var(--amber);
+        outline-offset: 3px;
+      }
+
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .display {
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      /* ---------- Layout shell ---------- */
+      .shell {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: var(--sidebar-w);
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        background: var(--panel);
+        border-right: 1px solid var(--border);
+        padding: 28px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+        z-index: 40;
+        transition: transform 0.3s ease;
+      }
+      .brand {
+        font-size: 0.83rem;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 0 3px rgba(79, 189, 176, 0.18);
+        animation: pulse 2.4s infinite ease-in-out;
+        flex-shrink: 0;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.35;
+        }
+      }
+      nav.navlist {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      nav.navlist a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 1 rem;
+        padding: 9px 10px;
+        border-radius: var(--radius);
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        transition:
+          background 0.15s ease,
+          color 0.15s ease;
+      }
+      nav.navlist a .idx {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 1rem;
+        color: var(--amber);
+        opacity: 0.85;
+      }
+      nav.navlist a:hover,
+      nav.navlist a.active {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.045);
+      }
+      .sidebar-foot {
+        margin-top: auto;
+        font-size: 0.8rem;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        padding-top: 14px;
+      }
+
+      .menu-toggle {
+        display: none;
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 60;
+        background: var(--panel-2);
+        border: 1px solid var(--border-strong);
+        color: var(--text);
+        width: 42px;
+        height: 42px;
+        border-radius: var(--radius);
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .menu-toggle span,
+      .menu-toggle span::before,
+      .menu-toggle span::after {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--text);
+        position: relative;
+      }
+      .menu-toggle span::before {
+        position: absolute;
+        top: -6px;
+      }
+      .menu-toggle span::after {
+        position: absolute;
+        top: 6px;
+      }
+
+      main {
+        margin-left: var(--sidebar-w);
+        flex: 1;
+        min-width: 0;
+      }
+
+      /* ---------- Module panel pattern ---------- */
+      .module {
+        position: relative;
+        padding: 64px clamp(20px, 5vw, 64px);
+        border-bottom: 1px solid var(--border);
+      }
+      .module-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 1rem;
+        letter-spacing: 0.14em;
+        color: var(--teal);
+        text-transform: uppercase;
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .module-label::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: var(--border-strong);
+      }
+      .corner {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-color: var(--border-strong);
+        border-style: solid;
+        border-width: 0;
+        opacity: 0.7;
+      }
+      .corner.tl {
+        top: 18px;
+        left: 18px;
+        border-top-width: 1px;
+        border-left-width: 1px;
+      }
+      .corner.br {
+        bottom: 18px;
+        right: 18px;
+        border-bottom-width: 1px;
+        border-right-width: 1px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Space Grotesk", sans-serif;
+        margin: 0 0 0.4em 0;
+        font-weight: 600;
+      }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 64px clamp(20px, 6vw, 80px);
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+      }
+      .status-line {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--amber);
+        letter-spacing: 0.08em;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hero h1 {
+        font-size: clamp(2.6rem, 7vw, 5.2rem);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        max-width: 16ch;
+      }
+      .hero .role {
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        color: var(--muted);
+        max-width: 46ch;
+        margin-top: 18px;
+      }
+      .hero .role strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .waveform {
+        width: 100%;
+        max-width: 640px;
+        height: 56px;
+        margin-top: 44px;
+        opacity: 0.85;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 14px;
+        margin-top: 38px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+        padding: 12px 20px;
+        border-radius: var(--radius);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border-strong);
+        transition:
+          border-color 0.15s ease,
+          background 0.15s ease;
+      }
+      .btn.primary {
+        background: var(--amber);
+        color: #14232d;
+        border-color: var(--amber);
+        font-weight: 500;
+      }
+      .btn.primary:hover {
+        background: #ffbe57;
+      }
+      .btn.ghost {
+        color: var(--text);
+      }
+      .btn.ghost:hover {
+        border-color: var(--teal);
+        color: var(--teal);
+      }
+
+      /* ---------- Education timeline ---------- */
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 8px;
+      }
+      .t-item {
+        display: grid;
+        grid-template-columns: 120px 1px 1fr;
+        gap: 0 26px;
+        padding: 22px 0;
+        border-top: 1px solid var(--border);
+      }
+      .t-item:first-child {
+        border-top: none;
+      }
+      .t-tag {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 1rem;
+        color: var(--amber);
+        padding-top: 2px;
+      }
+      .t-rule {
+        background: var(--border-strong);
+      }
+      .t-body h3 {
+        font-size: 1.15rem;
+        margin-bottom: 4px;
+      }
+      .t-body .meta {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .t-body .score {
+        display: inline-block;
+        margin-top: 8px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 1rem;
+        color: var(--teal);
+        border: 1px solid rgba(79, 189, 176, 0.35);
+        padding: 3px 9px;
+        border-radius: 20px;
+      }
+
+      /* ---------- Skills ---------- */
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 28px;
+        margin-top: 8px;
+      }
+      .skill-cat h3 {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        margin-bottom: 14px;
+      }
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        font-size: 0.86rem;
+        padding: 7px 13px;
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      /* ---------- Projects ---------- */
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 22px;
+        margin-top: 8px;
+      }
+      .project-card {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .project-card .log {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+      }
+      .project-card h3 {
+        font-size: 1.25rem;
+      }
+      .project-card p {
+        color: var(--muted);
+        font-size: 0.94rem;
+        margin: 0;
+      }
+      .tag-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: auto;
+        padding-top: 10px;
+      }
+      .tag-row span {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--teal);
+        border: 1px solid rgba(79, 189, 176, 0.3);
+        padding: 3px 8px;
+        border-radius: 20px;
+      }
+
+      /* ---------- Experience / Internships ---------- */
+      .exp-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 8px;
+      }
+      .exp-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 20px;
+        padding: 18px 0;
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+      .exp-item:first-child {
+        border-top: none;
+      }
+      .exp-item h3 {
+        font-size: 1.05rem;
+        margin: 0;
+      }
+      .exp-item .org {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .exp-item .tagr {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--amber);
+      }
+
+      /* ---------- Courses / Publications / Activities ---------- */
+      .simple-list {
+        list-style: none;
+        margin: 8px 0 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .simple-list li {
+        padding: 14px 0 14px 22px;
+        border-top: 1px solid var(--border);
+        position: relative;
+        font-size: 0.95rem;
+        color: var(--text);
+      }
+      .simple-list li:first-child {
+        border-top: none;
+      }
+      .simple-list li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: var(--amber);
+      }
+      .simple-list li .sub {
+        display: block;
+        color: var(--muted);
+        font-size: 0.85rem;
+        margin-top: 3px;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+      @media (max-width: 760px) {
+        .two-col {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+      }
+
+      /* ---------- Contact ---------- */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+        margin-top: 26px;
+      }
+      .contact-card {
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius);
+        padding: 22px;
+        background: var(--panel-2);
+      }
+      .contact-card .k {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .contact-card .v {
+        font-size: 1.02rem;
+        word-break: break-word;
+      }
+      .contact-card a {
+        text-decoration: none;
+        border-bottom: 1px solid var(--border-strong);
+      }
+      .contact-card a:hover {
+        color: var(--teal);
+        border-color: var(--teal);
+      }
+
+      footer {
+        padding: 30px clamp(20px, 5vw, 64px);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 900px) {
+        .sidebar {
+          transform: translateX(-100%);
+          box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+        }
+        .sidebar.open {
+          transform: translateX(0);
+        }
+        main {
+          margin-left: 0;
+        }
+        .menu-toggle {
+          display: flex;
+        }
+        .t-item {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+        .t-rule {
+          display: none;
+        }
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 30;
+      }
+      .overlay.show {
+        display: block;
+      }
+      .download-btn {
+        position: fixed;
+        top: 20px;
+        right: 25px;
+        width: 52px;
+        height: 52px;
+        background: var(--amber);
+        color: #132633;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        z-index: 999;
+        transition: 0.3s;
+      }
+
+      .download-btn:hover {
+        transform: scale(1.12);
+        background: #ffbe57;
+      }
+
+      .download-btn svg {
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+      <span></span>
+    </button>
+    <div class="overlay" id="overlay"></div>
+
+    <div class="shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand"><span class="dot"></span> MOHANKUMAR // INDEX</div>
+        <nav class="navlist">
+          <a href="#hero"><span class="idx">00</span>Home</a>
+          <a href="#education"><span class="idx">01</span>Education</a>
+          <a href="#skills"><span class="idx">02</span>Skills</a>
+          <a href="#projects"><span class="idx">03</span>Projects</a>
+          <a href="#experience"><span class="idx">04</span>Internships</a>
+          <a href="#record"><span class="idx">05</span>Record</a>
+          <a href="#contact"><span class="idx">06</span>Contact</a>
+        </nav>
+        <div class="sidebar-foot mono">
+          B.E. CSE · Tiruchengode<br />
+          Open to entry-level roles
+        </div>
+      </aside>
+
+      <main>
+        <a
+          href="Mohankumar_T Resume.pdf"
+          download
+          class="download-btn"
+          title="Download Resume"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M.5 9.9a.5.5 0 0 1 .5.5v2.6a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-2.6a.5.5 0 0 1 1 0v2.6A1.5 1.5 0 0 1 14.5 14h-13A1.5 1.5 0 0 1 0 12.5v-2.6a.5.5 0 0 1 .5-.5z"
+            />
+            <path
+              d="M5.646 7.146a.5.5 0 0 1 .708 0L7.5 8.293V1.5a.5.5 0 0 1 1 0v6.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 0-.708z"
+            />
+          </svg>
+        </a>
+        <!-- HERO -->
+        <section class="hero" id="hero">
+          <div class="status-line mono">
+            <span
+              class="dot"
+              style="
+                background: var(--amber);
+                box-shadow: 0 0 0 3px rgba(242, 169, 59, 0.18);
+              "
+            ></span
+            >STATUS: OPEN TO ENTRY-LEVEL ROLES
+          </div>
+          <h1>Mohankumar T</h1>
+          <p class="role">
+            Looking for an entry-level position in a progressive organization
+            where I can apply my technical and analytical skills, contribute to
+            impactful projects, and achieve professional and career growth.
+          </p>
+
+          <svg
+            class="waveform"
+            viewBox="0 0 640 56"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <polyline
+              points="0,28 40,28 55,10 70,46 85,28 130,28 145,18 160,38 175,28 260,28 275,6 292,50 308,28 400,28 415,20 430,36 445,28 560,28 575,12 592,44 608,28 640,28"
+              fill="none"
+              stroke="var(--teal)"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <div class="hero-cta">
+            <a class="btn primary" href="#contact">Get in touch →</a>
+            <a class="btn ghost" href="#projects">View projects</a>
+          </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section class="module" id="education">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <div class="module-label">01 // Education</div>
+          <div class="timeline">
+            <div class="t-item">
+              <div class="t-tag">CURRENT</div>
+              <div class="t-rule"></div>
+              <div class="t-body">
+                <h3>B.E. Computer Science &amp; Engineering</h3>
+                <div class="meta">
+                  Vidyaa Vikas College of Engineering and Technology,
+                  Tiruchengode
+                </div>
+                <span class="score">CGPA 8.3 </span>
+              </div>
+            </div>
+            <div class="t-item">
+              <div class="t-tag">HSC</div>
+              <div class="t-rule"></div>
+              <div class="t-body">
+                <h3>HSC</h3>
+                <div class="meta">Govt. Higher Secondary School</div>
+                <span class="score">73%</span>
+              </div>
+            </div>
+            <div class="t-item">
+              <div class="t-tag">SSLC</div>
+              <div class="t-rule"></div>
+              <div class="t-body">
+                <h3>SSLC</h3>
+                <div class="meta">Govt. Higher Secondary School</div>
+                <span class="score">80%</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="module" id="skills">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <div class="module-label">02 // Skills &amp; Interests</div>
+          <div class="skill-grid">
+            <div class="skill-cat">
+              <h3>Languages</h3>
+              <div class="chip-row">
+                <span class="chip">Python</span><span class="chip">Java</span
+                ><span class="chip">SQL</span><span class="chip">XML</span
+                ><span class="chip">HTML</span> <span class="chip">CSS</span
+                ><span class="chip">Node.js</span
+                ><span class="chip">Express.js</span>
+                <span class="chip">React</span>
+              </div>
+            </div>
+            <div class="skill-cat">
+              <h3>Platforms &amp; Tools</h3>
+              <div class="chip-row">
+                <span class="chip">Android Studio</span
+                ><span class="chip">MongoDB</span
+                ><span class="chip">Github</span>
+              </div>
+            </div>
+            <div class="skill-cat">
+              <h3>Applied Focus</h3>
+              <div class="chip-row">
+                <span class="chip">Generative AI</span>
+              </div>
+            </div>
+            <div class="skill-cat">
+              <h3>Areas of Interest</h3>
+              <div class="chip-row">
+                <span class="chip">Android App Development</span
+                ><span class="chip">Software Dev &amp; Testing</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="module" id="projects">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <div class="module-label">03 // Project Log</div>
+          <div class="project-grid">
+            <div class="project-card">
+              <div class="log">FOODNET</div>
+              <h3>
+                AI Driven Surplus Food Redistribution Using Optics Clustering
+                For Sustainable Donations
+              </h3>
+              <p>
+                Developed a full-stack web application that connects food donors
+                with beneficiaries to reduce food waste through efficient
+                donation management and real-time request handling. Implemented
+                secure user authentication, location-based food listing, booking
+                management, and an admin dashboard for monitoring donations.
+              </p>
+              <div class="tag-row">
+                <span>Python</span><span>OPTICS Clustering</span
+                ><span>Fullstack</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <div class="log">VOICE_ASSISTANT</div>
+              <h3>AI Voice Assistant for Windows 11</h3>
+              <p>
+                Developed a Python-based desktop voice assistant that listens to
+                voice commands, understands natural language, and performs tasks
+                such as opening applications, searching the web, and answering
+                user queries. Integrated speech recognition, text-to-speech, and
+                Generative AI for intelligent conversational responses.
+              </p>
+              <div class="tag-row">
+                <span>Python</span><span>Generative AI</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <div class="log">FOREST_FIRE_ALERT</div>
+              <h3>AI-Based Forest Fire Prediction &amp; Early Alert System</h3>
+              <p>
+                Developed an AI-powered application that predicts forest fire
+                risk using real-time weather conditions and environmental data.
+                Integrated live Weather API data to generate early alerts,
+                enabling proactive forest monitoring and faster emergency
+                response.
+              </p>
+              <div class="tag-row">
+                <span>Python</span><span>Weather API</span
+                ><span>Prediction</span>
+              </div>
+            </div>
+            <div class="project-card">
+              <div class="log">WELLWAR IT SOLUTIONS</div>
+              <h3>Corporate Web Portfolio</h3>
+              <p>
+                Designed and developed a responsive corporate portfolio website
+                showcasing the company's services, projects, technologies, and
+                contact information. Built with a modern UI/UX to strengthen the
+                company's online presence and provide a professional digital
+                identity.
+              </p>
+              <div class="tag-row"><span>HTML</span><span>UI/UX</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section class="module" id="experience">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <div class="module-label">04 // Internships</div>
+          <div class="exp-list">
+            <div class="exp-item">
+              <div>
+                <h3>Node.js Developer Internship</h3>
+                <div class="org">Aveon Infotech Pvt Ltd., Coimbatore</div>
+              </div>
+              <div class="tagr">Node.js</div>
+            </div>
+            <div class="exp-item">
+              <div>
+                <h3>Android App Development Internship</h3>
+                <div class="org">Nithra Apps, Tiruchengode</div>
+              </div>
+              <div class="tagr">ANDROID</div>
+            </div>
+            <div class="exp-item">
+              <div>
+                <h3>Data Science with Python Internship</h3>
+                <div class="org">Ether Infotech, Coimbatore</div>
+              </div>
+              <div class="tagr">DATA SCIENCE</div>
+            </div>
+            <div class="exp-item">
+              <div>
+                <h3>AI Tools Internship</h3>
+                <div class="org">Appin Technology, Coimbatore</div>
+              </div>
+              <div class="tagr">AI TOOLS</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RECORD: courses, publications, activities -->
+        <section class="module" id="record">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <div class="module-label">05 // Record</div>
+          <div class="two-col">
+            <div>
+              <h3
+                class="mono"
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                "
+              >
+                Certifications &amp; Courses
+              </h3>
+              <ul class="simple-list">
+                <li>
+                  Oracle Cloud Infrastructure 2023 AI Certified Foundation
+                  Associate<span class="sub">Oracle</span>
+                </li>
+                <li>
+                  Android App Development<span class="sub">Great Learning</span>
+                </li>
+                <li>Spring REST<span class="sub">Infosys</span></li>
+                <li>
+                  Artificial Intelligence Fundamentals<span class="sub"
+                    >IBM</span
+                  >
+                </li>
+                <li>
+                  Fullstack development Masterclass<span class="sub"
+                    >Novitech</span
+                  >
+                </li>
+                <li>Python Projects<span class="sub">Great Learning</span></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="mono"
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                "
+              >
+                Publication
+              </h3>
+              <ul class="simple-list">
+                <li>
+                  “Microsoft Rolls Out Advanced GPT Customization Tools For
+                  Business Users”<span class="sub"
+                    >IJIRT · 30 June 2025 · Journal No. 47859</span
+                  >
+                </li>
+              </ul>
+              <ul class="simple-list">
+                <li>
+                  “FoodNet : AI Driven Surplus Food Redistribution Using Optics
+                  Clustering For Sustainable Donations”<span class="sub"
+                    >ICCET 2026</span
+                  >
+                </li>
+              </ul>
+              <h3
+                class="mono"
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-top: 28px;
+                "
+              >
+                Activities
+              </h3>
+              <ul class="simple-list">
+                <li>
+                  1st place, Logo Designing Competition.<span class="sub"
+                    >Rang Utsav, KSRCET · Feb 2025</span
+                  >
+                </li>
+                <li>
+                  Attented Workshop on Cyber Defence using Neural Networks
+                </li>
+                <li>
+                  Attented Workshop on Recent Developments in Artificial
+                  Intelligence.
+                </li>
+                <li>Joined Animation and VFX Workshop.</li>
+                <li>
+                  Student Coordinator, Science Sparks 2k25.
+                  <span class="sub">VVCET</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="module" id="contact" style="border-bottom: none">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <div class="module-label">06 // Contact</div>
+          <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); max-width: 20ch">
+            Let's build something worth shipping.
+          </h2>
+          <div class="contact-grid">
+            <div class="contact-card">
+              <div class="k">Email</div>
+              <div class="v">
+                <a href="mailto:mohankumarjob11@gmail.com"
+                  >mohankumarjob11@gmail.com</a
+                >
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="k">Phone</div>
+              <div class="v">
+                <a href="tel:+919566344127">+91 95663 44127</a>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="k">LinkedIn</div>
+              <div class="v">
+                <a
+                  href="https://linkedin.com/in/mohankumar-t-434aa9287"
+                  target="_blank"
+                  rel="noopener"
+                  >linkedin.com/in/mohankumar-t</a
+                >
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="k">Github</div>
+              <div class="v">
+                <a
+                  href="https://github.com/mohankumarjob11-cmyk"
+                  target="_blank"
+                  rel="noopener"
+                  >https://github.com/mohankumarjob11-cmyk</a
+                >
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="k">Location</div>
+              <div class="v">Tiruchengode, Namakkal DT, Tamil Nadu</div>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <span>© 2026 T. Mohankumar</span>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      const sidebar = document.getElementById("sidebar");
+      const toggle = document.getElementById("menuToggle");
+      const overlay = document.getElementById("overlay");
+      function closeMenu() {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+      }
+      toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("show");
+      });
+      overlay.addEventListener("click", closeMenu);
+      document
+        .querySelectorAll(".navlist a")
+        .forEach((a) => a.addEventListener("click", closeMenu));
+
+      // Active link highlight on scroll
+      const sections = document.querySelectorAll("main section[id]");
+      const links = document.querySelectorAll(".navlist a");
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              links.forEach((l) => l.classList.remove("active"));
+              const active = document.querySelector(
+                '.navlist a[href="#' + entry.target.id + '"]',
+              );
+              if (active) active.classList.add("active");
+            }
+          });
+        },
+        { rootMargin: "-40% 0px -50% 0px" },
+      );
+      sections.forEach((s) => obs.observe(s));
+    </script>
+  </body>
+</html>
